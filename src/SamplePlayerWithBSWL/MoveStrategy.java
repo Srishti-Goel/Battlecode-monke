@@ -1,4 +1,4 @@
-package SamplePlayerWithBSW;
+package SamplePlayerWithBSWL;
 
 import battlecode.common.*;
 

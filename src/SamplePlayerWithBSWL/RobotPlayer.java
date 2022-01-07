@@ -1,15 +1,8 @@
-package SamplePlayerWithBSW;
+package SamplePlayerWithBSWL;
 
 import battlecode.common.*;
 
 import java.util.Random;
-
-import static SamplePlayerWithBSW.ArchonPlayer.runArchon;
-import static SamplePlayerWithBSW.BuilderPlayer.runBuilder;
-import static SamplePlayerWithBSW.MinerPlayer.runMiner;
-import static SamplePlayerWithBSW.SagePlayer.runSage;
-import static SamplePlayerWithBSW.SoldierPlayer.runSoldier;
-import static SamplePlayerWithBSW.WatchTowerPlayer.runWatchTower;
 
 /**
  * RobotPlayer is the class that describes your main robot strategy.
@@ -56,12 +49,7 @@ public strictfp class RobotPlayer {
     @SuppressWarnings("unused")
     public static void run(RobotController rc) throws GameActionException {
 
-        // Hello world! Standard output is very useful for debugging.
-        // Everything you say here will be directly viewable in your terminal when you run a match!
         System.out.println("I'm a " + rc.getType() + " and I just got created! I have health " + rc.getHealth());
-
-        // You can also use indicators to save debug notes in replays.
-        rc.setIndicatorString("Hello world!");
 
         while (true) {
             // This code runs during the entire lifespan of the robot, which is why it is in an infinite
@@ -69,7 +57,6 @@ public strictfp class RobotPlayer {
             // loop, we call Clock.yield(), signifying that we've done everything we want to do.
 
             turnCount += 1;  // We have now been alive for one more turn!
-            //System.out.println("Age: " + turnCount + "; Location: " + rc.getLocation());
 
             // Try/catch blocks stop unhandled exceptions, which cause your robot to explode.
             try {
@@ -78,13 +65,13 @@ public strictfp class RobotPlayer {
                 // use different strategies on different robots. If you wish, you are free to rewrite
                 // this into a different control structure!
                 switch (rc.getType()) {
-                    case ARCHON:     runArchon(rc);  break;
-                    case MINER:      runMiner(rc);   break;
-                    case SOLDIER:    runSoldier(rc); break;
-                    case LABORATORY: // Examplefuncsplayer doesn't use any of these robot types below.
-                    case WATCHTOWER:    runWatchTower(rc); break;
-                    case BUILDER:   runBuilder(rc, turnCount); break;
-                    case SAGE:      runSage(rc); break;
+                    case ARCHON:     ArchonPlayer.runArchon(rc);  break;
+                    case MINER:      MinerPlayer.runMiner(rc);   break;
+                    case SOLDIER:    SoldierPlayer.runSoldier(rc); break;
+                    case LABORATORY:    LaboratoryPlayer.runLaboratory(rc); break;
+                    case WATCHTOWER:    WatchTowerPlayer.runWatchTower(rc); break;
+                    case BUILDER:   BuilderPlayer.runBuilder(rc, turnCount); break;
+                    case SAGE:      SagePlayer.runSage(rc); break;
                 }
             } catch (GameActionException e) {
                 // Oh no! It looks like we did something illegal in the Battlecode world. You should
