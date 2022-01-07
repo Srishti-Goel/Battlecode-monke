@@ -1,18 +1,20 @@
-package Lecture2Player;
+package SamplePlayerWithBSWL;
 
 import battlecode.common.*;
 
-import java.util.Random;
+import java.util.*;
 
 public class ArchonPlayer {
     static final Direction[] directions = RobotPlayer.directions;
     static final Random rng = new Random();
+
+    static int miners = 0, soldiers = 0, builders = 0;
+
     /**
      * Run a single turn for an Archon.
      * This code is wrapped inside the infinite loop in run(), so it is called once per turn.
      */
     static void runArchon(RobotController rc) throws GameActionException {
-        // Pick a direction to build in.
         Direction dir = directions[rng.nextInt(directions.length)];
         Team us = rc.getTeam();
         Team opponent = rc.getTeam().opponent();
@@ -38,13 +40,15 @@ public class ArchonPlayer {
                 rc.buildRobot(RobotType.SOLDIER, dir);
             }
         }
-
-        dir = directions[rng.nextInt(directions.length)];
-        
-        rc.setIndicatorString("Sage pregnancy");
-        if(rc.canBuildRobot(RobotType.SAGE, dir)){
-            rc.buildRobot(RobotType.SAGE, dir);
+        if(rc.getTeamLeadAmount(us) > rc.getTeamLeadAmount(opponent) + 500){
+            dir = directions[rng.nextInt(directions.length)];
+            rc.setIndicatorString("Builder pregnancy");
+            if(rc.canBuildRobot(RobotType.BUILDER, dir)){
+                rc.buildRobot(RobotType.BUILDER, dir);
+            }
         }
     }
+
+
 
 }

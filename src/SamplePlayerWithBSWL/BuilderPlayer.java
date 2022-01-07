@@ -1,10 +1,10 @@
-package SamplePlayerWithBSW;
+package SamplePlayerWithBSWL;
 
 import battlecode.common.*;
 
 import java.util.*;
 
-import static SamplePlayerWithBSW.MoveStrategy.move;
+import static SamplePlayerWithBSWL.MoveStrategy.move;
 
 strictfp class BuilderPlayer {
 
@@ -46,15 +46,20 @@ strictfp class BuilderPlayer {
         }
         if(dir != null){
             move(rc, dir);
-            if(turnCount % 100 == 0 && rc.getTeamLeadAmount(us) > 7000 && rc.canBuildRobot(RobotType.WATCHTOWER, dir)){
-                rc.buildRobot(RobotType.WATCHTOWER, dir.opposite());
-            }
         }
         else{
             move(rc);
         }
 
-
+        dir = directions[rng.nextInt(directions.length)];
+        if(turnCount % 50 == 0 && rc.getTeamLeadAmount(us) > 7000 && rc.canBuildRobot(RobotType.WATCHTOWER, dir)){
+            rc.setIndicatorString("WatchTower pregnancy");
+            rc.buildRobot(RobotType.WATCHTOWER, dir);
+        }
+        else if(turnCount % 75 == 0 && rc.getTeamLeadAmount(us) > 10000 && rc.canBuildRobot(RobotType.LABORATORY, dir)){
+            rc.setIndicatorString("Laboratory pregnancy");
+            rc.buildRobot(RobotType.LABORATORY, dir);
+        }
     }
 
 }

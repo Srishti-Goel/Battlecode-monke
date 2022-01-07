@@ -1,10 +1,10 @@
-package SamplePlayerWithBSW;
+package SamplePlayerWithBSWL;
 
 import battlecode.common.*;
 
 import java.util.Random;
 
-import static SamplePlayerWithBSW.MoveStrategy.move;
+import static SamplePlayerWithBSWL.MoveStrategy.move;
 
 public class SoldierPlayer {
     static final Direction[] directions = RobotPlayer.directions;
@@ -30,18 +30,35 @@ public class SoldierPlayer {
                 targetDir = me.directionTo(enemy.location);
             }
         }
+
+        if(toAttack != null && rc.canAttack(toAttack)){
+            rc.attack(toAttack);
+        }
+
         // Also try to move toward it
         if (toAttack != null) {
             if(rc.canAttack(toAttack)){
                 rc.attack(toAttack);
                 //System.out.println("Target attacked!");
             }
-            else {
-                move(rc);
+            else if(rc.canMove(targetDir)){
+                rc.move(targetDir);
+                //System.out.println("Target locked");
+            }
+            else{
+                Direction dir = directions[rng.nextInt(directions.length)];
+                if (rc.canMove(dir)) {
+                    rc.move(dir);
+                    //System.out.println("I moved!");
+                }
             }
         }
         else{
-            move(rc);
+            Direction dir = directions[rng.nextInt(directions.length)];
+            if (rc.canMove(dir)) {
+                rc.move(dir);
+                //System.out.println("I moved!");
+            }
         }
 
     }

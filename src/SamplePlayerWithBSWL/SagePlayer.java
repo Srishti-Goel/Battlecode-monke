@@ -1,4 +1,4 @@
-package SamplePlayerWithBSW;
+package SamplePlayerWithBSWL;
 
 import battlecode.common.Direction;
 import battlecode.common.GameActionException;
@@ -6,7 +6,7 @@ import battlecode.common.RobotController;
 
 import java.util.Random;
 
-import static SamplePlayerWithBSW.MoveStrategy.move;
+import static SamplePlayerWithBSWL.MoveStrategy.move;
 
 public class SagePlayer {
 
