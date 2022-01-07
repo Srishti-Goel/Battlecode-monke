@@ -53,9 +53,11 @@ strictfp class BuilderPlayer {
 
         dir = directions[rng.nextInt(directions.length)];
         if(turnCount % 50 == 0 && rc.getTeamLeadAmount(us) > 7000 && rc.canBuildRobot(RobotType.WATCHTOWER, dir)){
+            rc.setIndicatorString("WatchTower pregnancy");
             rc.buildRobot(RobotType.WATCHTOWER, dir);
         }
         else if(turnCount % 75 == 0 && rc.getTeamLeadAmount(us) > 10000 && rc.canBuildRobot(RobotType.LABORATORY, dir)){
+            rc.setIndicatorString("Laboratory pregnancy");
             rc.buildRobot(RobotType.LABORATORY, dir);
         }
     }
