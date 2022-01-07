@@ -20,21 +20,19 @@ public class ArchonPlayer {
 
 
         if (rng.nextBoolean() && rc.senseNearbyRobots(radius, us).length > rc.senseNearbyRobots(radius, opponent).length) {
-            // Let's try to build a miner.
-            rc.setIndicatorString("Trying to build a miner");
+            rc.setIndicatorString("Miner pregnancy");
             if (rc.canBuildRobot(RobotType.MINER, dir)) {
                 rc.buildRobot(RobotType.MINER, dir);
             }
         } else {
-            // Let's try to build a soldier.
-            rc.setIndicatorString("Trying to build a soldier");
+            rc.setIndicatorString("Soldier pregnancy");
             if (rc.canBuildRobot(RobotType.SOLDIER, dir)) {
                 rc.buildRobot(RobotType.SOLDIER, dir);
             }
         }
 
         if(rc.senseNearbyRobots(radius, us).length > rc.senseNearbyRobots(radius, opponent).length){
-            System.out.println("ARCHON HELP!!");
+            rc.setIndicatorString("Soldier pregnancy");
             dir = directions[rng.nextInt(directions.length)];
             if(rc.canBuildRobot(RobotType.SOLDIER, dir)){
                 rc.buildRobot(RobotType.SOLDIER, dir);
@@ -42,6 +40,8 @@ public class ArchonPlayer {
         }
 
         dir = directions[rng.nextInt(directions.length)];
+        
+        rc.setIndicatorString("Sage pregnancy");
         if(rc.canBuildRobot(RobotType.SAGE, dir)){
             rc.buildRobot(RobotType.SAGE, dir);
         }
