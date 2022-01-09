@@ -11,14 +11,8 @@ strictfp class BuilderPlayer {
     static Direction[] directions = RobotPlayer.directions;
     static Random rng = RobotPlayer.rng;
 
-    static int watchTowers = 0;
-    static Direction exploreDirection = null;
-
     static void runBuilder(RobotController rc, int turnCount) throws GameActionException{
 
-        if(exploreDirection == null){
-            exploreDirection = directions[rng.nextInt(directions.length)];
-        }
 
         MapLocation me = rc.getLocation();
         for(int dx = -1; dx <2; dx++){
@@ -45,20 +39,36 @@ strictfp class BuilderPlayer {
             }
         }
         if(dir != null){
-            move(rc, dir);
+            if(rc.canMove(dir)){
+                rc.move(dir);
+            }
+            else{
+                move(rc);
+            }
         }
         else{
             move(rc);
         }
 
         dir = directions[rng.nextInt(directions.length)];
-        if(turnCount % 50 == 0 && rc.getTeamLeadAmount(us) > 7000 && rc.canBuildRobot(RobotType.WATCHTOWER, dir)){
-            rc.setIndicatorString("WatchTower pregnancy");
-            rc.buildRobot(RobotType.WATCHTOWER, dir);
+
+        int safety = SensingNearby.senseSafety(rc, rc.getLocation().add(dir));
+
+        if(safety > 0){
+            if(turnCount % 75 == 0 && rc.getTeamLeadAmount(us) > 10000 && rc.canBuildRobot(RobotType.LABORATORY, dir)){
+                rc.setIndicatorString("Laboratory pregnancy");
+                rc.buildRobot(RobotType.LABORATORY, dir);
+            }
+            else if(turnCount % 50 == 0 && rc.getTeamLeadAmount(us) > 7000 && rc.canBuildRobot(RobotType.WATCHTOWER, dir)){
+                rc.setIndicatorString("WatchTower pregnancy");
+                rc.buildRobot(RobotType.WATCHTOWER, dir);
+            }
         }
-        else if(turnCount % 75 == 0 && rc.getTeamLeadAmount(us) > 10000 && rc.canBuildRobot(RobotType.LABORATORY, dir)){
-            rc.setIndicatorString("Laboratory pregnancy");
-            rc.buildRobot(RobotType.LABORATORY, dir);
+        else {
+            if(turnCount % 50 == 0 && rc.getTeamLeadAmount(us) > 7000 && rc.canBuildRobot(RobotType.WATCHTOWER, dir)){
+                rc.setIndicatorString("WatchTower pregnancy");
+                rc.buildRobot(RobotType.WATCHTOWER, dir);
+            }
         }
     }
 
