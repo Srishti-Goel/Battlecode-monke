@@ -1,0 +1,6 @@
+---------SHARED ARRAY----------
+
+First int : No. of enemy archons found
+Second int : No. of defenders created
+
+Next 8 ints: (x,y) of the enemy archons.
