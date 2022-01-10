@@ -33,11 +33,11 @@ public class ArchonPlayer {
             }
         }
 
-        if(rc.senseNearbyRobots(radius, us).length > rc.senseNearbyRobots(radius, opponent).length){
-            rc.setIndicatorString("Soldier pregnancy");
+        if(rc.getTeamGoldAmount(us) > rc.getTeamLeadAmount(opponent) + 50){
+            rc.setIndicatorString("Sage pregnancy");
             dir = directions[rng.nextInt(directions.length)];
-            if(rc.canBuildRobot(RobotType.SOLDIER, dir)){
-                rc.buildRobot(RobotType.SOLDIER, dir);
+            if(rc.canBuildRobot(RobotType.SAGE, dir)){
+                rc.buildRobot(RobotType.SAGE, dir);
             }
         }
         if(rc.getTeamLeadAmount(us) > rc.getTeamLeadAmount(opponent) + 500){

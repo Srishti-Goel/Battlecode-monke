@@ -1,8 +1,6 @@
 package SamplePlayerWithBSWL;
 
-import battlecode.common.Direction;
-import battlecode.common.GameActionException;
-import battlecode.common.RobotController;
+import battlecode.common.*;
 
 import java.util.Random;
 
@@ -13,7 +11,34 @@ public class SagePlayer {
     static final Direction[] directions = RobotPlayer.directions;
     static final Random rng = new Random();
 
+    static Direction exploreDir = null;
+
+    static final AnomalyType[] anomalies = {AnomalyType.ABYSS, AnomalyType.CHARGE, AnomalyType.FURY, AnomalyType.VORTEX};
+
     static void runSage(RobotController rc) throws GameActionException {
-        move(rc);
+
+        if(exploreDir == null){
+            exploreDir = directions[rng.nextInt(directions.length)];
+        }
+
+        if(!isNearSelfArchon(rc)){
+            AnomalyType targetAnomaly = anomalies[rng.nextInt(anomalies.length)];
+            if(rc.canEnvision(targetAnomaly)){
+                rc.envision(targetAnomaly);
+            }
+        }
+
+        move(rc, exploreDir);
+    }
+
+    static boolean isNearSelfArchon(RobotController rc) throws GameActionException{
+        RobotInfo[] nearbyRobots = rc.senseNearbyRobots();
+
+        for(RobotInfo robot : nearbyRobots){
+            if(robot.team==rc.getTeam() && robot.type == RobotType.ARCHON)
+                return true;
+        }
+
+        return false;
     }
 }

@@ -49,7 +49,7 @@ public strictfp class RobotPlayer {
     @SuppressWarnings("unused")
     public static void run(RobotController rc) throws GameActionException {
 
-        System.out.println("I'm a " + rc.getType() + " and I just got created! I have health " + rc.getHealth());
+        System.out.println("A " + rc.getType() +" got created ");
 
         while (true) {
             // This code runs during the entire lifespan of the robot, which is why it is in an infinite
@@ -97,5 +97,11 @@ public strictfp class RobotPlayer {
         // Your code should never reach here (unless it's intentional)! Self-destruction imminent...
     }
 
-
+    static boolean canAttack(RobotInfo robot){
+        if(robot.type == RobotType.SOLDIER)
+            return true;
+        if(robot.type == RobotType.WATCHTOWER && robot.mode==RobotMode.TURRET)
+            return true;
+        return false;
+    }
 }

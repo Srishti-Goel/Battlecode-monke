@@ -16,9 +16,7 @@ strictfp class WatchTowerPlayer {
             if(rc.canAttack(toAttack)){
                 rc.attack(toAttack);
                 rc.setIndicatorString("Attacking");
-                System.out.println("Watchtower Attacked");
             }
         }
-
     }
 }
