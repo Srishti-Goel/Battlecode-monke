@@ -26,8 +26,7 @@ public class ArchonPlayer {
         Team opponent = rc.getTeam().opponent();
         int radius = rc.getType().visionRadiusSquared;
 
-        dir = directions[rng.nextInt(directions.length)];
-        if (( rng.nextBoolean() && rc.senseNearbyRobots(radius, us).length > rc.senseNearbyRobots(radius, opponent).length)) {
+        if ( rng.nextBoolean() && SensingNearby.senseSafety(rc, rc.getLocation()) > 0) {
             rc.setIndicatorString("Miner pregnancy");
             if (rc.canBuildRobot(RobotType.MINER, dir)) {
                 rc.buildRobot(RobotType.MINER, dir);
@@ -48,7 +47,8 @@ public class ArchonPlayer {
                     rc.writeSharedArray(1, 1);
                 }
             }
-        } else {
+        }
+        else {
             if (rc.canBuildRobot(RobotType.SOLDIER, dir)) {
                 rc.buildRobot(RobotType.SOLDIER, dir);
                 rc.setIndicatorString("Soldier pregnancy " + soldiers);

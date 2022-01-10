@@ -34,7 +34,15 @@ public class SensingNearby {
         }
         return null;
     }
-
+    static MapLocation senseSelfArchon(RobotController rc){
+        RobotInfo[] robotsNearby = rc.senseNearbyRobots();
+        for(RobotInfo robot : robotsNearby){
+            if(robot.type == RobotType.ARCHON && robot.team == rc.getTeam()){
+                return robot.location;
+            }
+        }
+        return null;
+    }
     static int isInSharedArray(RobotController rc, MapLocation ArchonFound)throws GameActionException {
         int alreadyFound = rc.readSharedArray(0);
         for(int i = 0; i < alreadyFound; i++){

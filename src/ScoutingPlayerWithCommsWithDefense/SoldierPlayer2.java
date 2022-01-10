@@ -4,12 +4,16 @@ import battlecode.common.*;
 
 import java.util.Random;
 
-public class SoldierPlayer {
+import static ScoutingPlayerWithCommsWithDefense.MoveStrategy.move;
+
+public class SoldierPlayer2 {
     static final Direction[] directions = RobotPlayer.directions;
     static final Random rng = new Random();
 
+    static Direction exploreDir = null;
     static MapLocation defendingLocation = null;
     static int soldier_mode = -1;
+
     // 0 = Attacker, 1 = Defender
 
     /**
@@ -19,18 +23,15 @@ public class SoldierPlayer {
     static void runSoldier(RobotController rc) throws GameActionException {
 
         if(soldier_mode == -1){
-
-                int randomness = rng.nextInt(100);
-                if(randomness < 20){
-                    soldier_mode = 1;
-                    defendingLocation = SensingNearby.senseSelfArchon(rc);
-                }
-                else{
-                    soldier_mode = 0;
-                }
-
+            int randomness = rng.nextInt(100);
+            if(randomness < 20){
+                soldier_mode = 1;
+            }
+            else{
+                soldier_mode = 0;
+            }
         }
-        
+
         int radius = rc.getType().visionRadiusSquared;
         Team opponent = rc.getTeam().opponent();
         MapLocation me = rc.getLocation();
@@ -92,18 +93,20 @@ public class SoldierPlayer {
         }
 
         // Also try to move toward it
-
         if (toAttack != null) {
             if(rc.canAttack(toAttack)){
                 rc.attack(toAttack);
+                //System.out.println("Target attacked!");
             }
             else if(rc.canMove(targetDir)){
                 rc.move(targetDir);
+                //System.out.println("Target locked");
             }
             else{
                 Direction dir = directions[rng.nextInt(directions.length)];
                 if (rc.canMove(dir)) {
                     rc.move(dir);
+                    //System.out.println("I moved!");
                 }
             }
         }
@@ -113,55 +116,50 @@ public class SoldierPlayer {
                 dir = directions[rng.nextInt(directions.length)];
             }
             else{
-                if(rc.getLocation().distanceSquaredTo(defendingLocation) > 9){
-                    dir = rc.getLocation().directionTo(defendingLocation);
-                }
-                else if(rc.getLocation().distanceSquaredTo(defendingLocation) < 9){
-                    dir = directions[rng.nextInt(directions.length)];
-                }
+                dir = rc.getLocation().directionTo(defendingLocation);
             }
-            if (dir != null && rc.canMove(dir)) {
+            if (rc.canMove(dir)) {
                 rc.move(dir);
+                //System.out.println("I moved!");
             }
-
         }
         SensingNearby.Scout(rc);
     }
 
     static MapLocation ArchonFound = null;
 
-/*    static void runScoutingSoldier(RobotController rc) throws GameActionException{
-        if(exploreDir == null){
-            exploreDir = directions[rng.nextInt(directions.length)];
-        }
-
-        if(ArchonFound != null){
-            int alreadyFound = rc.readSharedArray(0);
-            rc.writeSharedArray((1 + (2 * alreadyFound)), ArchonFound.x);
-            rc.writeSharedArray((2 + (2 * alreadyFound)), ArchonFound.y);
-            ArchonFound = null;
-        }
-
-        while(rc.isMovementReady()){
-            if(SensingNearby.senseArchonToAttack(rc) != null){
-                ArchonFound = SensingNearby.senseArchonToAttack(rc);
-                System.out.println("Enemy Archon found!");
-                int alreadyFound = rc.readSharedArray(0);
-
-                rc.writeSharedArray((2 + (2 * alreadyFound)), ArchonFound.x);
-                rc.writeSharedArray((3 + (2 * alreadyFound)), ArchonFound.y);
-
-                ArchonFound = null;
-            }
-            if(rc.canMove(exploreDir)){
-                soldierMove(rc, exploreDir);
-            }
-            else{
+    /*    static void runScoutingSoldier(RobotController rc) throws GameActionException{
+            if(exploreDir == null){
                 exploreDir = directions[rng.nextInt(directions.length)];
             }
-        }
-    }
 
+            if(ArchonFound != null){
+                int alreadyFound = rc.readSharedArray(0);
+                rc.writeSharedArray((1 + (2 * alreadyFound)), ArchonFound.x);
+                rc.writeSharedArray((2 + (2 * alreadyFound)), ArchonFound.y);
+                ArchonFound = null;
+            }
+
+            while(rc.isMovementReady()){
+                if(SensingNearby.senseArchonToAttack(rc) != null){
+                    ArchonFound = SensingNearby.senseArchonToAttack(rc);
+                    System.out.println("Enemy Archon found!");
+                    int alreadyFound = rc.readSharedArray(0);
+
+                    rc.writeSharedArray((2 + (2 * alreadyFound)), ArchonFound.x);
+                    rc.writeSharedArray((3 + (2 * alreadyFound)), ArchonFound.y);
+
+                    ArchonFound = null;
+                }
+                if(rc.canMove(exploreDir)){
+                    soldierMove(rc, exploreDir);
+                }
+                else{
+                    exploreDir = directions[rng.nextInt(directions.length)];
+                }
+            }
+        }
+    */
     static void soldierMove(RobotController rc, Direction dir) throws GameActionException{
         if(rc.canMove(dir)){
             move(rc, dir);
@@ -181,5 +179,4 @@ public class SoldierPlayer {
             rc.attack(targetLoc);
         }
     }
- */
 }
