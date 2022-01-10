@@ -1,4 +1,4 @@
-package SamplePlayerWithBSWL;
+package ScoutingPlayerWithComms;
 
 import battlecode.common.*;
 
