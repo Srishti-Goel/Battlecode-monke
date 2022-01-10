@@ -2,7 +2,7 @@ package ScoutingPlayerWithComms;
 
 import battlecode.common.*;
 
-import java.util.Random;
+import java.util.*;
 
 import static ScoutingPlayerWithComms.MoveStrategy.move;
 
@@ -71,5 +71,4 @@ strictfp class BuilderPlayer {
             }
         }
     }
-    SensingNearby.Scout(rc);
 }

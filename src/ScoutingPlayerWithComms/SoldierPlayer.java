@@ -1,7 +1,6 @@
 package ScoutingPlayerWithComms;
 
 import battlecode.common.*;
-import scala.Int;
 
 import java.util.Random;
 

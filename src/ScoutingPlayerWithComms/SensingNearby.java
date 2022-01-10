@@ -1,9 +1,6 @@
 package ScoutingPlayerWithComms;
 
-import battlecode.common.MapLocation;
-import battlecode.common.RobotController;
-import battlecode.common.RobotInfo;
-import battlecode.common.RobotType;
+import battlecode.common.*;
 
 public class SensingNearby {
     static int senseSafety(RobotController rc, MapLocation location){
@@ -64,7 +61,6 @@ public class SensingNearby {
             rc.writeSharedArray((3 + (2 * alreadyFound)), ArchonFound.y);
             int alreadyFoundArchons = rc.readSharedArray(0);
             rc.writeSharedArray(0, alreadyFoundArchons+1);
-            miner_mode = -1;
         }
       }
   }

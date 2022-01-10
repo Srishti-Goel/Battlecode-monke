@@ -86,7 +86,6 @@ strictfp class MinerPlayer {
       rc.writeSharedArray((2 + (2 * alreadyFound)), ArchonFound.x);
       rc.writeSharedArray((3 + (2 * alreadyFound)), ArchonFound.y);
       System.out.println(ArchonFound.toString());
-      miner_mode = -1;
       return;
     }
       if (SensingNearby.senseArchonToAttack(rc) != null) {
@@ -98,7 +97,6 @@ strictfp class MinerPlayer {
         rc.writeSharedArray((3 + (2 * alreadyFound)), ArchonFound.y);
         int alreadyFoundArchons = rc.readSharedArray(0);
         rc.writeSharedArray(0, alreadyFoundArchons+1);
-        miner_mode = -1;
 
       }
   }

@@ -34,8 +34,8 @@ public class SagePlayer {
         }
         else{
             int archonToAttack = rng.nextInt(archonsFound);
-            toAttack = new MapLocation(rc.readSharedArray( 2 + (archonToAttack *2)), rc.readSharedArray( 3 + (archonToAttack *2)));
-            exploreDir = me.directionTo(toAttack);
+            MapLocation toAttack = new MapLocation(rc.readSharedArray( 2 + (archonToAttack *2)), rc.readSharedArray( 3 + (archonToAttack *2)));
+            exploreDir = rc.getLocation().directionTo(toAttack);
             rc.setIndicatorString("Attacking archon no: " + (archonToAttack + 1));
         }
         move(rc, exploreDir);
