@@ -2,6 +2,7 @@ package SamplePlayerWithBSWL;
 
 import battlecode.common.*;
 
+import java.util.Arrays;
 import java.util.Random;
 
 strictfp class MoveStrategy {
@@ -9,44 +10,66 @@ strictfp class MoveStrategy {
     static Random rng = RobotPlayer.rng;
 
     static void move(RobotController rc) throws GameActionException{
-        Direction dir = directions[rng.nextInt(directions.length)];
-        while(! rc.canMove(dir)){
-            dir = directions[rng.nextInt(directions.length)];
+
+        Direction[] dirs = lowestRubble(rc);
+        for(int i = 0; i < dirs.length; i++){
+            if(rc.canMove(dirs[i])){
+                rc.move(dirs[i]);
+                return;
+            }
         }
-        if(rc.canMove(dir)) {
-            rc.move(dir);
-            return;
-        }
-        System.out.println("Something wrong with function 1");
     }
     static void move(RobotController rc, Direction targetDir) throws GameActionException{
-        Direction dir = targetDir;
-        while(! rc.canMove(dir)){
-            dir = directions[rng.nextInt(directions.length)];
-        }
-        if(rc.canMove(dir)){
-            rc.move(dir);
+        if(rc.canMove(targetDir)){
+            rc.move(targetDir);
             return;
         }
-        System.out.println("Something wrong in the 2nd function");
+        Direction[] dirs = lowestRubble(rc);
+        for(int i = 0; i < dirs.length; i++){
+            if(rc.canMove(dirs[i])){
+                rc.move(dirs[i]);
+                return;
+            }
+        }
     }
     static void move(RobotController rc, Direction targetDir, Direction exploreDir) throws GameActionException{
-        Direction dir = targetDir;
-        if(rc.canMove(dir)){
-            rc.move(dir);
+        if(rc.canMove(targetDir)){
+            rc.move(targetDir);
             return;
         }
         else if(rc.canMove(exploreDir)){
             rc.move(exploreDir);
             return;
         }
-        while(! rc.canMove(dir)){
-            dir = directions[rng.nextInt(directions.length)];
+        Direction[] dirs = lowestRubble(rc);
+        for(int i = 0; i < dirs.length; i++){
+            if(rc.canMove(dirs[i])){
+                rc.move(dirs[i]);
+                return;
+            }
         }
-        if(rc.canMove(dir)){
-            rc.move(dir);
-            return;
+    }
+
+    static Direction[] lowestRubble(RobotController rc) throws GameActionException{
+        Direction[] dirs = Arrays.copyOf(directions, directions.length);
+        Arrays.sort(dirs, (a,b)-> {
+            if(getRubble(rc, a) - getRubble(rc, b) != 0)
+                return getRubble(rc, a) - getRubble(rc, b);
+            else{
+                if(rng.nextBoolean())
+                    return 1;
+                else
+                    return -1;
+            }
+        });
+        return dirs;
+    }
+    static int getRubble(RobotController rc, Direction dir){
+        try{
+            return(rc.senseRubble(rc.getLocation().add(dir)));
         }
-        System.out.println("Something wrong in 3rd function");
+        catch (GameActionException e){
+            return 0;
+        }
     }
 }

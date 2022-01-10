@@ -18,6 +18,5 @@ strictfp class WatchTowerPlayer {
                 rc.setIndicatorString("Attacking");
             }
         }
-
     }
 }
